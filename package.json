@@ -1,8 +1,10 @@
 {
   "name": "react-native-color-grabber",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [
     "react-native",
+    "react-component",
+    "ios",
     "react",
     "native",
     "color",
@@ -14,5 +16,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bobby Sudekum",
-  "license": "ISC"
+  "license": "ISC",
+  "peerDependencies": {
+    "react-native": ">=0.5"
+  }
 }
