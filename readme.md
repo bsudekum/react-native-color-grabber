@@ -25,11 +25,11 @@ colorGrabber.getColors(image, (err, res) => {
 ```
 
 ### Example:
-![](https://cldup.com/6pDdFRjl4f.gif)
+![](https://cldup.com/73LEp_q3UE.gif)
 
 > Creating a map style from the dominant colors in an image
 
 ### Notes
 
 * Only tested with images from `assets-library://`
-* [Code from](http://stackoverflow.com/a/29266983/1522419) 
+* [Code from](http://stackoverflow.com/a/29266983/1522419)
