@@ -1,6 +1,6 @@
 {
   "name": "react-native-color-grabber",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "keywords": [
     "react-native",
     "react-component",
@@ -19,5 +19,9 @@
   "license": "ISC",
   "peerDependencies": {
     "react-native": ">=0.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bsudekum/react-native-color-grabber.git"
   }
 }
