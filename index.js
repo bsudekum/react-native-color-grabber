@@ -3,4 +3,4 @@
 import { NativeModules } from 'react-native';
 const { colorGrabber } = NativeModules;
 
-export default colorSnrabber;
+export default colorGrabber;
