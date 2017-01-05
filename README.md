@@ -1,35 +1,66 @@
-## React native color grabber
+# react-native-palette
 
-_Given an image, returns dominant colors_
+An Android-only library which wraps the [Android Pallete Class](https://developer.android.com/reference/android/support/v7/graphics/Palette.html)
+to pick colors from an image.
 
-#### Install:
+## Getting started
 
-1. `npm install react-native-color-grabber --save`
-2. Add `node_modules/color-grabber/color-grabber` to your project
-3. Run and build
+`$ npm install react-native-palette --save`
+
+### Mostly automatic installation
+
+`$ react-native link react-native-palette`
+
+### Manual installation
 
 
-### api
+#### Android
 
-```js
-var colorGrabber = require('react-native').NativeModules.colorGrabber
-colorGrabber.getColors(image, (err, res) => {
-    console.log(res);
-    // Returns:
-    // {
-    //  'UIDeviceRGBColorSpace 0.0784314 0.0941176 0.0823529 1': '0.1666667',
-    //  'UIDeviceRGBColorSpace 0.215686 0.203922 0.262745 1': '0.1666667',
-    //  'UIDeviceRGBColorSpace 0.517647 0.45098 0.380392 1': '0.6666667'
-    // }
-});
+1. Open up `android/app/src/main/java/[...]/MainApplication.java`
+  - Add `import io.palette.RNPalettePackage;` to the imports at the top of the file
+  - Add `new RNPalettePackage()` to the list returned by the `getPackages()` method
+2. Append the following lines to `android/settings.gradle`:
+
+  ```
+   include ':react-native-palette'
+   project(':react-native-palette').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-palette/android')
+  ```
+3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
+```
+   compile project(':react-native-palette')
 ```
 
-### Example:
-![](https://cldup.com/73LEp_q3UE.gif)
 
-> Creating a map style from the dominant colors in an image
+## Usage
 
-### Notes
+Call `getSwatches()` with a path to an image  such as that returned by [`react-native-image-picker`](https://github.com/marcshilling/react-native-image-picker) and a callback function. The callback is passed an error parameter and an array of swatches representing the dominant colors in the image. Typically 16 swatches are returned. Each swatch contains the following fields:
 
-* Only tested with images from `assets-library://`
-* [Code from](http://stackoverflow.com/a/29266983/1522419)
+### Fields
+
+Field | Info
+------ | ----
+color | The main color of the swatch as a hex `#rrggbb` string
+population | The population of this swatch in the image. A positive integer. You can sort on this field to find the most dominant swatch.
+titleTextColor | A text color which contrasts well with the main swatch color for use in titles. Includes alpha as a hex `#rrggbbaa` string.
+bodyTextColor | A text color which contrasts well with the main swatch color for use as body text. Includes alpha as a hex `#rrggbbaa` string.
+swatchInfo | A string encapsulating all the above and more. Can be used for debugging. Note that the hex strings are in the format #aarrggbb rather than that specified above.
+### Example
+```javascript
+    import Palette from 'react-native-palette';
+    import ImagePicker from 'react-native-image-picker'
+
+    ImagePicker.launchImageLibrary({}, (response)  => {
+        Palette.getSwatches(response.path, (error, swatches) => {
+            if (error) {
+                console.log(error);
+            } else {
+                swatches.sort((a, b) => {
+                    return b.population - a.population;
+                });
+                swatches.forEach((swatch) => {
+                    console.log(swatch.swatchInfo);
+                });
+            }
+        });
+    });
+```

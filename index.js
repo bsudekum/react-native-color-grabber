@@ -1,6 +1,6 @@
 'use strict'
 
 import { NativeModules } from 'react-native';
-const { RNPalette } = NativeModules;
+const { colorGrabber } = NativeModules;
 
-export default RNPalette;
+export default colorSnrabber;

@@ -18,18 +18,18 @@ import java.util.List;
 import java.util.ListIterator;
 import java.lang.Integer;
 
-public class RNPaletteModule extends ReactContextBaseJavaModule {
+public class colorGrabberModule extends ReactContextBaseJavaModule {
 
   private final ReactApplicationContext reactContext;
 
-  public RNPaletteModule(ReactApplicationContext reactContext) {
+  public colorGrabberModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
   }
 
   @Override
   public String getName() {
-    return "RNPalette";
+    return "colorGrabber";
   }
 
   private String intToRGB(int color) {
