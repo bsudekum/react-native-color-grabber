@@ -1,4 +1,4 @@
-package io.palette;
+package io.colorGrabber;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

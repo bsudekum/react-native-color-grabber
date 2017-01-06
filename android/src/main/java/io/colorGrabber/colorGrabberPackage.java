@@ -1,4 +1,4 @@
-package io.palette;
+package io.colorGrabber;
 
 import java.util.Arrays;
 import java.util.Collections;
