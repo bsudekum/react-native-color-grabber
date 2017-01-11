@@ -31,11 +31,18 @@ function computeTextColor(uicolors) {
   // well if that doesnt' work, simplify!
   //colors.textColor = ((r*255*0.299 + g*255*0.587 + b*255*0.114) > 186) ? '#000000' : '#ffffff';
 }
-
-
-export const getSwatches = (options, image, callback) => {
+export const getNamedSwatches = (image, callback) => {
   if (Platform.OS === 'android') {
-    return colorGrabber.getSwatches(image, callback);
+    return colorGrabber.getNamedSwatches(image, callback);
+  } else {
+    callback("Not supported");
+  }
+}
+
+
+export const getAllSwatches = (options, image, callback) => {
+  if (Platform.OS === 'android') {
+    return colorGrabber.getAllSwatches(image, callback);
   }
   if (options.hasOwnProperty('threshold')) {
     Threshold = options.threshold

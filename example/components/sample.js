@@ -70,7 +70,7 @@ export default Sample = React.createClass( {
              this.state.colors.swatches.map((swatch, index) => {
               return (
                 <View key={index} style={[styles.swatch,{backgroundColor: swatch.color}]}>
-                    <Text style={{color: swatch.bodyTextColor}}>{(swatch.population*(Platform.OS === 'ios'?1000:1)).toFixed()}</Text>
+                    <Text style={{color: swatch.bodyTextColor}}>{swatch.name  ? swatch.name: (swatch.population*(Platform.OS === 'ios'?1000:1)).toFixed()}</Text>
                 </View>)
             }
              ) : <Text>{typeof this.state.colors.swatches === 'string'? this.state.colors.swatches :  "Placeholder"}</Text>}

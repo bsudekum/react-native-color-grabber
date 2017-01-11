@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 
 import ImagePicker from 'react-native-image-picker';
-import {getSwatches} from 'react-native-color-grabber';
+import {getAllSwatches, getNamedSwatches} from 'react-native-color-grabber';
 
 
 export default function(storeImage) {
@@ -28,19 +28,39 @@ export default function(storeImage) {
     }
     else {
       colors.image = response.data;
-      getSwatches({}, Platform.OS === 'ios' ? response.origURL : response.path, (error, swatches) => {
+      var path =  Platform.OS === 'ios' ? response.origURL : response.path;
+      getNamedSwatches(path, (error, swatches) => {
         if ( error) {
           console.log(error);
           colors.swatches = error;
         } else {
-          swatches.sort((a, b) => {
-            return b.population - a.population;
-          });
-          console.log(swatches);
-          colors.swatches = swatches
+          sArr = []
+          for (var s in swatches)
+          {
+            if (swatches[s]) {
+              swatches[s]["name"] = s;
+              sArr.push(swatches[s])
+            }
+          }
+          console.log(sArr);
+          colors.swatches = sArr;
         }
         storeImage(colors);
       }); 
+
+      /* getAllSwatches({}, Platform.OS === 'ios' ? response.origURL : response.path, (error, swatches) => {
+         if ( error) {
+         console.log(error);
+         colors.swatches = error;
+         } else {
+         swatches.sort((a, b) => {
+         return b.population - a.population;
+         });
+         console.log(swatches);
+         colors.swatches = swatches
+         }
+         storeImage(colors);
+         });  */
     }
   });
 }
