@@ -6,15 +6,30 @@ import {
 import ImagePicker from 'react-native-image-picker';
 import {getAllSwatches, getNamedSwatches} from 'react-native-color-grabber';
 
+function named(swatches) {
+  var   sArr = [];
+  for (var s in swatches)
+  {
+    if (swatches[s]) {
+      swatches[s]["name"] = s;
+      sArr.push(swatches[s])
+    }
+  }
+  console.log(sArr);
+  return sArr;
+}
 
-export default function(storeImage) {
+
+
+export default function(storeImage, useNamed) {
   var max = Math.max(Dimensions.get('window').width,Dimensions.get('window').height);
-  
+
   const options = {
     quality: 0.5,
     maxWidth: max|0, /* convert double to int by bitwise OR */
     maxHeight: max|0,
   };
+
   //console.log("In ImagePicker");
   ImagePicker.launchImageLibrary(options, (response) => {
     var colors = {};
@@ -29,38 +44,37 @@ export default function(storeImage) {
     else {
       colors.image = response.data;
       var path =  Platform.OS === 'ios' ? response.origURL : response.path;
-      getNamedSwatches(path, (error, swatches) => {
-        if ( error) {
-          console.log(error);
-          colors.swatches = error;
-        } else {
-          sArr = []
-          for (var s in swatches)
-          {
-            if (swatches[s]) {
-              swatches[s]["name"] = s;
-              sArr.push(swatches[s])
-            }
+      if (useNamed) {
+        getNamedSwatches(path, (error, swatches) => {
+          if ( error) {
+            console.log(error);
+            colors.swatches = error;
+          } else {
+            colors.swatches = named(swatches);
+              
+            colors.swatches.sort((a, b) => {
+              return b.population - a.population;
+            });
+            
+            console.log(colors.swatches);
           }
-          console.log(sArr);
-          colors.swatches = sArr;
-        }
-        storeImage(colors);
-      }); 
+          storeImage(colors);
+        });
+      } else {
+        getAllSwatches({}, path, (error, swatches) => {
+          if ( error) {
+            console.log(error);
+            colors.swatches = error;
+          } else {
+            swatches.sort((a, b) => {
+              return b.population - a.population;
+            });
 
-      /* getAllSwatches({}, Platform.OS === 'ios' ? response.origURL : response.path, (error, swatches) => {
-         if ( error) {
-         console.log(error);
-         colors.swatches = error;
-         } else {
-         swatches.sort((a, b) => {
-         return b.population - a.population;
-         });
-         console.log(swatches);
-         colors.swatches = swatches
-         }
-         storeImage(colors);
-         });  */
+            colors.swatches = swatches
+          }
+          storeImage(colors);
+        }); 
+      }
     }
   });
 }

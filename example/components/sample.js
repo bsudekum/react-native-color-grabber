@@ -26,20 +26,38 @@ export default Sample = React.createClass( {
       colors: {},
       api: 'v1', //Platform.OS === 'ios' ? 'v0' : 'v1',
       diag: "",
+      useNamed: false,
+      leftButton: Platform.OS === 'ios' ? 'v0 API' : 'getAllSwatches',
+      rightButton: Platform.OS === 'ios' ? 'v1 API' : 'getNamedSwatches',
     }
   } ,
 
   storeImage(colors) {
-      console.log("In sample", colors.swatches[0].swatchInfo);
-      this.setState({colors});
+    console.log("In sample", typeof this.state.colors.swatches === 'string' ?
+                    this.state.colors.swatches : colors.swatches[0].swatchInfo );
+    this.setState({colors});
   },
 
+  pressLeft() {
+    if (Platform.OS === 'ios') {
+      this.setState({api: 'v0'});
+    } else {
+      this.setState({useNamed: false});
+    }
+  },
+  pressRight() {
+    if (Platform.OS === 'ios') {
+      this.setState({api: 'v1'});
+    } else {
+      this.setState({useNamed: true});
+    }
+  },
   onPress() {
     console.log("Button pressed");
     if (this.state.api === 'v1') {
-      imagePicker(this.storeImage);
+      imagePicker(this.storeImage, this.state.useNamed);
     } else {
-      imagePickerAPIv0(this.storeImage);
+      imagePickerAPIv0(this.storeImage, this.state.useNamed);
     }
   },
   
@@ -75,6 +93,10 @@ export default Sample = React.createClass( {
             }
              ) : <Text>{typeof this.state.colors.swatches === 'string'? this.state.colors.swatches :  "Placeholder"}</Text>}
           </View>
+          <View style={styles.optionContainer}> 
+            <Button onPress={this.pressLeft} title={this.state.leftButton} />
+            <Button onPress={this.pressRight} title={this.state.rightButton} />
+          </View>
     </View>
     );
   }
@@ -97,11 +119,17 @@ const styles = StyleSheet.create({
 
   },
   swatchContainer: {
-    flex: 1,
+    flex: .75,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
     flexWrap: 'wrap',
+  },
+  optionContainer: {
+    flex: .25,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
   swatch: {
     width: 70,
