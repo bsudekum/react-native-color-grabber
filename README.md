@@ -95,7 +95,7 @@ swatchInfo | A string encapsulating all the above and more. Can be used for debu
 
 ### Example
 ```javascript
-  import colorGrabber from 'react-native-color-grabber';
+
   import {getAllSwatches} from 'react-native-color-grabber';
   import ImagePicker from 'react-native-image-picker'
 
