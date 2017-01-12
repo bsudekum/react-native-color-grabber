@@ -1,6 +1,6 @@
 {
   "name": "react-native-color-grabber",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "keywords": [
     "react-native",
     "react-component",
@@ -12,13 +12,14 @@
     "dominant"
   ],
   "description": "React native component for finding dominant colors in an image",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bobby Sudekum",
   "license": "ISC",
   "peerDependencies": {
-    "react-native": ">=0.5"
+    "react-native": ">=0.29.0"
   },
   "repository": {
     "type": "git",
